@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %} | Booking {% endblock title %} 
+
+{% block header %} {% include 'header.html' %}{% endblock header %} 
+{% block banner %} {% include 'banner.html' %} {% endblock banner %}
+
+{% load humanize %}
+{% load static %}
+
+{% block content %}
+  
+<section>
+  <div class="container-fluid check">
+    <h1 class="title">checkout</h1>
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <h3 class="summary">booking details</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Room</th>
+              <th scope="col"># Rate</th>
+              <th scope="col">Checkin</th>
+              <th scope="col">Checkout</th>
+              <th scope="col">Days</th>
+              <th scope="col">$ Amount</th>
+            </tr>
+          </thead>
+          <tbody> 
+            {% if booking  %}
+                {% for item in booking %}
+                <tr>
+                  
+                  <td><img src="{{item.room.room_img.url}}" style="width: 50px;"></td>
+                  <td>{{item.price|floatformat:2|intcomma}}</td>
+                  <td>{{item.checkin}}</td>
+                  <td>{{item.checkout}}</td>
+                  <td>{{item.no_days}}</td>
+                  <td>{{item.amount}}</td>
+                </tr>
+                {% endfor %}
+            
+            {% endif %}
+        </table>
+        <table class="cart table">
+          <tbody>
+          <tr>
+            <td class="row"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Total: {{total|floatformat:2|intcomma}}</td>
+          </tr>
+          <tr>
+          <td class="row"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tbody>
+      </table>
+      </div>
+      <div class="col-12 col-md-6">
+        <h3 class="summary">billing details</h3>
+        <div class="shipping">
+          <form action="{% url 'pay' %}" method="POST">
+          {% csrf_token %}
+            <div class="form-group">
+              <label class="labe" for="exampleInputEmail1">first name</label>
+              <input type="text" name="first_name" value="{{profile.first_name}}" class="form-control" id="exampleInputText1" aria-describedby="textHelp">
+            </div>
+            <div class="form-group">
+              <label class="labe" for="exampleInputEmail1">last name</label>
+              <input type="text" name="last_name" value="{{profile.last_name}}" class="form-control" id="exampleInputText1" aria-describedby="textHelp">
+            </div>
+           
+            <div class="form-group">
+              <label class="labe" for="exampleInputEmail1">address</label>
+              <input type="text" name="address" class="form-control" id="exampleInputText1" aria-describedby="textHelp">
+            </div>
+            <div class="form-group">
+              <label class="labe" for="exampleInputEmail1">phone</label>
+              <input type="text" name="phone" value="{{profile.phone}}" class="form-control" id="exampleInputText1" aria-describedby="textHelp">
+            </div>
+            <!-- <div class="form-group">
+              <label class="labe" for="exampleInputEmail1">state</label>
+              <input type="text" name="state" value="{{profile.state}} class="form-control" id="exampleInputText1" aria-describedby="textHelp">
+            </div> -->
+            <div class="form-group">
+              <label class="labe" for="exampleInputEmail1">state</label>
+              <input type="text" name="state" value="{{profile.state}}" class="form-control" id="exampleInputText1" aria-describedby="textHelp">
+              <input type="hidden" name="total" value="{{total}}">
+            </div>
+            <button type="submit" class="btn check-btn">Pay now</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- content done -->
+{% endblock content %}
+{% block footer %} {% include 'footer.html' %} {% endblock footer %}
