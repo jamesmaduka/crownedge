@@ -348,7 +348,7 @@ def pay(request):
     if request.method == 'POST':
         api_key = 'sk_test_9fea1f11cb0959dfd6a5be8647b444a638bfb494'       #secret key from paystack
         curl = 'https://api.paystack.co/transaction/initialize'   #paystack call url
-        cburl = 'http://34.220.43.58/callback' #crownedge callback url to send payment success message to 
+        cburl = 'http://35.165.154.152/callback' #crownedge callback url to send payment success message to 
         ref = str(uuid.uuid4()) #reference number required by paystack as an additional order number
         profile = Profile.objects.get(user__username = request.user.username)
         booking_code = profile.id #main booking order number
